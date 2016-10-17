@@ -1,6 +1,7 @@
 package ru.samara;
 
 import org.glassfish.grizzly.Grizzly;
+import org.glassfish.grizzly.PortRange;
 import org.glassfish.grizzly.http.server.*;
 
 import java.io.IOException;
@@ -13,7 +14,8 @@ public class HabrWebServer {
 
     public static void main(String[] args) {
         // create a basic server that listens  0.0.0.0:8080
-        final HttpServer server = HttpServer.createSimpleServer();
+        final HttpServer server = createServer("0.0.0.0", 8080);
+
         final ServerConfiguration config = server.getServerConfiguration();
         // Map the path, '/', to the Handler
         config.addHttpHandler(new HabrHandler(), "/");
@@ -26,6 +28,13 @@ public class HabrWebServer {
         } finally {
             server.shutdownNow();
         }
+    }
+
+    public static HttpServer createServer(String host, int port) {
+        HttpServer server = new HttpServer();
+        NetworkListener listener = new NetworkListener("grizzly", host, new PortRange(port));
+        server.addListener(listener);
+        return server;
     }
 
     private static class HabrHandler extends HttpHandler {
