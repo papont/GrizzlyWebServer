@@ -2,8 +2,10 @@ group 'ru.samara'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = 'ru.samara.HabrWebServer'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -11,4 +13,5 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.glassfish.grizzly', name: 'grizzly-http-server', version: '2.3.28'
 }
